@@ -1,20 +1,20 @@
 import Foundation
 
 public struct IrisData {
-    public let label: Int
+    public let label: [Float]
     public let id: String
-    public let imageData: [Double]
-    init(id: String, imageData: [Double]) {
+    public let imageData: [Float]
+    init(id: String, imageData: [Float]) {
         self.id = id
         switch id {
         case "Setosa":
-            label = 1
+            label = [1,0,0]
         case "Versicolor":
-            label = 2
+            label = [0,1,0]
         case "Virginica":
-            label = 3
+             label = [0,0,1]
         default:
-            label = -1
+             label = [0,0,0]
         }
         self.imageData = imageData.map { i in
             if i != 0 {
@@ -26,9 +26,9 @@ public struct IrisData {
 }
 
 public struct MLPerformance {
-    public let loss: Decimal
-    public let accuracy: Decimal
-    public init(loss: Decimal, accuracy: Decimal) {
+    public let loss: Float
+    public let accuracy: Float
+    public init(loss: Float, accuracy: Float) {
         self.loss = loss
         self.accuracy = accuracy
     }
@@ -82,15 +82,15 @@ public func getIrisData() -> [IrisData] {
     return result.map { (arr) -> IrisData in
 
         let label = arr[arr.count - 1]
-        var data = [Double]()
+        var data = [Float]()
         for i in 0 ..< (arr.count - 1) {
-            data.append(Double(arr[i]) ?? 0.0)
+            data.append(Float(arr[i]) ?? 0.0)
         }
         return IrisData(id: label, imageData: data)
     }
 }
 
-public func getMNIST() -> [[Double]] {
+public func getMNIST() -> [[Float]] {
     var text = ""
 
     if let fileURL = Bundle.main.url(forResource: "mnist_test", withExtension: "csv") {
@@ -135,15 +135,15 @@ public func getMNIST() -> [[Double]] {
         }
     }
 
-    return result.map { (arr) -> [Double] in
-        arr.map { Double($0) ?? 0.0 }
+    return result.map { (arr) -> [Float] in
+        arr.map { Float($0) ?? 0.0 }
     }
 }
 
 public struct MNISTdata {
     public let label: Int
-    public let imageData: [Double]
-    init(label: Int, imageData: [Double]) {
+    public let imageData: [Float]
+    init(label: Int, imageData: [Float]) {
         self.label = label
         self.imageData = imageData.map { i in
             if i != 0 {
@@ -154,6 +154,6 @@ public struct MNISTdata {
     }
 }
 
-public func getPreprocessedMNIST(data: [[Double]]) -> [MNISTdata] {
+public func getPreprocessedMNIST(data: [[Float]]) -> [MNISTdata] {
     return data.map { MNISTdata(label: Int($0[0]), imageData: Array($0[1...])) }
 }
