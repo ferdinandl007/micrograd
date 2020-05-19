@@ -76,9 +76,8 @@ func show(_ kw: [String: Any]? = nil) -> PythonObject {
     return showFunction.call(args: [], kw: kw)
 }
 
-let MLtransposed = (Any).self
 
-for k in 0 ... 30 {
+for k in 0 ... 50 {
     // forward
     let inputs = data.map { x -> [Value] in
         let t = x.map { Value(data: Decimal($0)) }
@@ -118,7 +117,7 @@ for k in 0 ... 30 {
     total_loss.backward()
 
     // update (sgd)
-    let learning_rate = 1.0 - 0.9 * Decimal(k) / 100
+    let learning_rate = 1.0 - 0.9 * Decimal(k) / 50
     for p in model.parameters() {
         p.data -= learning_rate * p.grad
     }
